@@ -21,7 +21,7 @@
 </head>
 
 <body class="bmain">
-    <div class="view-counter">
+    <div class="view-counter" data-goatcounter-replace>
         Views: <span data-goatcounter-show></span>
     </div>
     <script>
@@ -110,6 +110,14 @@
     <script src="assets/js/oneko.js" data-cat="assets/img/others/oneko.gif"></script>
     <script data-goatcounter="https://018.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+        <script>
+        setTimeout(() => {
+            if (!window.goatcounter) {
+                const counterEl = document.querySelector('.view-counter');
+                counterEl.textContent = 'Views: 1 (Loading...)'; 
+            }
+        }, 3000);
+    </script>
 </body>
 
 </html>
