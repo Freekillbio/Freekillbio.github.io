@@ -4,28 +4,6 @@
     background-color: #000
 }
 
-.view-counter {
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    color: #fff;
-    font-family: 'Roboto Slab', bold;
-    background: rgba(0,0,0,0.7);
-    padding: 8px 15px;
-    border-radius: 20px;
-    z-index: 9999;
-    backdrop-filter: blur(3px);
-}
-
-<style>
-.view-counter span {
-  display: inline-block !important;
-  min-width: 80px;
-  font-weight: bold;
-  color: #ff5555 !important;
-}
-</style>
-
 .startthing {
     min-width: 100%;
     min-height: 100%;
@@ -214,9 +192,4 @@ iframe {
 
 video {
     object-fit: contain
-}
-
-[data-goatcounter-show] {
-  display: inline-block !important;
-  min-width: 60px;
 }
