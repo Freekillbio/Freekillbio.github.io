@@ -114,22 +114,6 @@
     no_onload: true // Force manual count
   }
     </script>
-    <script>
-  !function(){
-    const gc = document.createElement('script');
-    gc.async = true;
-    gc.src = '//gc.zgo.at/count.js';
-    gc.dataset.goatcounter = 'https://018.goatcounter.com/count';
-    document.body.appendChild(gc);
-    
-    // Force counter update every 2 seconds
-    setInterval(() => {
-      if(window.goatcounter?.count) {
-        document.querySelector('[data-goatcounter-show]').textContent = goatcounter.count;
-      }
-    }, 2000);
-  }()
-    </script>
     <script data-goatcounter="https://018.goatcounter.com/count?force=1&test=1" 
         async src="//gc.zgo.at/count.js"></script>
     <script>
