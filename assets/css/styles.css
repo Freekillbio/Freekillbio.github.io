@@ -17,11 +17,14 @@
     backdrop-filter: blur(3px);
 }
 
+<style>
 .view-counter span {
-    display: inline-block !important;
-    min-width: 60px;
-    text-align: center;
+  display: inline-block !important;
+  min-width: 80px;
+  font-weight: bold;
+  color: #ff5555 !important;
 }
+</style>
 
 .startthing {
     min-width: 100%;
