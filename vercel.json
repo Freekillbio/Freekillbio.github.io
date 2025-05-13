@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' 'unsafe-inline' gc.zgo.at *.lanyard.cnrad.dev *.discord.com *.discordapp.com *.ipify.org *.catbox.moe fonts.googleapis.com fonts.gstatic.com; img-src 'self' * data:; media-src 'self' *.catbox.moe; frame-src 'self' *.lanyard.cnrad.dev;"
+          "value": "default-src 'self' 'unsafe-inline' 'unsafe-eval' gc.zgo.at https://*.lanyard.cnrad.dev https://*.discord.com https://*.discordapp.com https://*.ipify.org https://*.catbox.moe https://fonts.googleapis.com https://fonts.gstatic.com https://freekill.vercel.app data:; img-src * data:; media-src *; frame-src 'self' https://*.lanyard.cnrad.dev; script-src 'self' 'unsafe-inline' 'unsafe-eval' gc.zgo.at https://*.ipify.org; connect-src *;"
         }
       ]
     }
