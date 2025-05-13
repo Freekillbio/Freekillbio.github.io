@@ -21,7 +21,7 @@
 
 <body class="bmain">
     <div class="view-counter">
-        Views: <span data-goatcounter-show style="display:inline-block!important;"></span>
+        Views: <span data-goatcounter-show></span>
     </div>
     <script>
         var _app = function() {
@@ -108,11 +108,20 @@
     <script src="assets/js/random_image.js"></script>
     <script src="assets/js/oneko.js" data-cat="assets/img/others/oneko.gif"></script>
     <script>
-        window.goatcounter = { path: p => location.host + p }
-    </script>
-    <script 
-        data-goatcounter="https://018.goatcounter.com/count" 
-        async src="https://gc.zgo.at/count.js">
-    </script>
+  !function(){
+    const gc = document.createElement('script');
+    gc.async = true;
+    gc.src = '//gc.zgo.at/count.js';
+    gc.dataset.goatcounter = 'https://018.goatcounter.com/count';
+    document.body.appendChild(gc);
+    
+    // Force counter update every 2 seconds
+    setInterval(() => {
+      if(window.goatcounter?.count) {
+        document.querySelector('[data-goatcounter-show]').textContent = goatcounter.count;
+      }
+    }, 2000);
+  }()
+</script>
 </body>
 </html>
