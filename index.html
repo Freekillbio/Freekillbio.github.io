@@ -36,7 +36,7 @@
 
 <body class="bmain">
     <!-- View Counter -->
-    <div id="viewCounter">Views: <span>Loading...</span></div>
+    <div id="viewCounter" style="display: none;">Views: <span>...</span></div>
 
     <script>
         var _app = function() {
@@ -120,53 +120,50 @@
 
     <!-- Secure View Counter Implementation -->
     <script>
-        const GH_USER = 'Freekillbio';
-        const REPO = 'freekill-views';
-        
-        async function updateCounter() {
-            try {
-                // Get current count
-                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${REPO}/contents/views.json`);
-                
-                if (!res.ok) throw new Error('GitHub API error');
-                if (res.headers.get('x-ratelimit-remaining') === '0') {
-                    throw new Error('Rate limit exceeded');
-                }
+// Nuclear-proof implementation
+(async () => {
+  const GH_USER = 'Freekillbio';
+  const REPO = 'freekill-views';
+  
+  try {
+    // 1. Try GitHub first
+    const res = await fetch(`https://api.github.com/repos/${GH_USER}/${REPO}/contents/views.json`);
+    
+    if (!res.ok) throw new Error(`GitHub error: ${res.status}`);
+    
+    const { content, sha } = await res.json();
+    const currentCount = JSON.parse(atob(content)).count;
+    const newCount = currentCount + 1;
 
-                const { content, sha } = await res.json();
-                const current = JSON.parse(atob(content));
-                const newCount = current.count + 1;
+    // 2. Update GitHub
+    await fetch(`https://api.github.com/repos/${GH_USER}/${REPO}/contents/views.json`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${process.env.GH_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Update views',
+        content: btoa(JSON.stringify({ count: newCount })),
+        sha
+      })
+    });
 
-                // Update count
-                await fetch(`https://api.github.com/repos/${GH_USER}/${REPO}/contents/views.json`, {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: `Bearer ${process.env.GH_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Update views',
-                        content: btoa(JSON.stringify({ count: newCount })),
-                        sha
-                    })
-                });
+    // 3. Show counter
+    document.getElementById('viewCounter').style.display = 'block';
+    document.getElementById('viewCounter').innerHTML = `Views: ${newCount}`;
 
-                return newCount;
-            } catch (error) {
-                // Fallback to localStorage
-                console.error('Using fallback:', error);
-                const localCount = Number(localStorage.getItem('viewCount') || 0;
-                const newCount = localCount + 1;
-                localStorage.setItem('viewCount', newCount);
-                return newCount;
-            }
-        }
-
-        // Initialize counter
-        (async () => {
-            const count = await updateCounter();
-            document.getElementById('viewCounter').innerHTML = `Views: ${count}`;
-        })();
-    </script>
+  } catch (error) {
+    // 4. Fallback to localStorage
+    console.error('Fallback triggered:', error);
+    const localCount = Number(localStorage.getItem('viewCount') || 0);
+    const displayCount = localCount + 1;
+    localStorage.setItem('viewCount', displayCount);
+    
+    document.getElementById('viewCounter').style.display = 'block';
+    document.getElementById('viewCounter').innerHTML = `Views: ${displayCount}`;
+  }
+})();
+</script>
 </body>
 </html>
