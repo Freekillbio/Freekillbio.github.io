@@ -212,3 +212,8 @@ iframe {
 video {
     object-fit: contain
 }
+
+[data-goatcounter-show] {
+  display: inline-block !important;
+  min-width: 60px;
+}
