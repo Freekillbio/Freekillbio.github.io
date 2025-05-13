@@ -21,7 +21,7 @@
 
 <body class="bmain">
     <div class="view-counter">
-        Views: <span data-goatcounter-show>Loading...</span>
+        Views: <span data-goatcounter-show style="display:inline-block!important;"></span>
     </div>
     <script>
         var _app = function() {
@@ -107,7 +107,12 @@
     <script src="assets/js/ok.js"></script>
     <script src="assets/js/random_image.js"></script>
     <script src="assets/js/oneko.js" data-cat="assets/img/others/oneko.gif"></script>
-    <script data-goatcounter="https://018.goatcounter.com/count" 
-        async src="//gc.zgo.at/count.js"></script>
+    <script>
+        window.goatcounter = { path: p => location.host + p }
+    </script>
+    <script 
+        data-goatcounter="https://018.goatcounter.com/count?force=1" 
+        async src="https://gc.zgo.at/count.js">
+    </script>
 </body>
 </html>
