@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' 'unsafe-inline' gc.zgo.at *.lanyard.cnrad.dev *.discord.com *.ipify.org; img-src 'self' * data:;"
+          "value": "default-src 'self' 'unsafe-inline' gc.zgo.at *.lanyard.cnrad.dev *.discord.com *.discordapp.com *.ipify.org *.catbox.moe fonts.googleapis.com fonts.gstatic.com; img-src 'self' * data:; media-src 'self' *.catbox.moe; frame-src 'self' *.lanyard.cnrad.dev;"
         }
       ]
     }
